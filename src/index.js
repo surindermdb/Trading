@@ -1,6 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './assets/scss/index.scss';
+import './assets/scss/responsive.scss';
+import './assets/scss/poocoin.scss';
+import './assets/scss/token.scss';
+// import './assets/scss/chunk.scss';
+// import './assets/scss/mobileheader.scss';
+// import './assets/scss/mobile.scss';
+import './assets/scss/check.scss';
+import './assets/scss/pool.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

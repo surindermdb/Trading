@@ -1,0 +1,143 @@
+
+
+
+// Responsive Css Code
+@media screen and(max-width:1200px) {
+
+    // Header Responsive Code
+    .nav_menu {
+        max-width: 325px;
+    }
+}
+
+@media screen and(max-width:991px) {
+
+    // Header Responsive Code
+    .header_inner {
+        grid-template-columns: 1fr;
+    }
+
+    .header_aside_logo {
+        justify-content: center;
+    }
+
+    .menu_items {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav_menu {
+        max-width: 720px;
+        margin: 16px 0 8px;
+    }
+
+    .header_btn {
+        position: initial;
+        transform: initial;
+        margin: auto;
+    }
+    .sec_content_trede_chart_inner{
+        grid-template-columns: 1fr 1fr ;
+        gap: 10px;
+    }
+    .search-btn-container[data-v-04096ca8]{
+        
+        max-width: 250px!important;
+        min-width: 250px!important;
+    }
+    .m_el-dropdown-link{
+        display: none !important;
+    }
+}
+
+@media screen and(max-width:767px) {
+
+    .sec_bsc_charts {
+        .sec_heading {
+            font-size: 33px;
+
+            .sec_info {
+                font-size: 28px;
+            }
+        }
+    }
+    .sec_content_trede_chart_inner{
+        grid-template-columns: 1fr;
+    }
+
+    
+    // .head .content[data-v-04096ca8]{
+    //     flex-direction: column;
+    //     height: auto!important;
+    // }
+    .d_el-dropdown-link{
+        display: none !important;
+    }
+
+    .m_el-dropdown-link{
+        display: block !important;
+    }
+    .d_connect_tmb{
+        display: none!important;
+    }
+    .d_search_btn_tmb{
+        display: none!important;
+    }
+    .search-btn-container[data-v-04096ca8]{
+        max-width: 14px!important;
+        min-width: 14px!important;
+    }
+    .search-btn-container[data-v-04096ca8]{
+        padding: 2px 20px!important;
+        justify-content: center;
+    }
+    .nav-list .nav-item[data-v-04096ca8]{
+        font-size: 12px!important;
+    }
+    .nav-list .nav-item + .nav-item[data-v-04096ca8]{
+        margin-left: 10px!important;
+    }
+    .nav-list[data-v-04096ca8]{
+        margin: 0 10px!important;
+    }
+    .search-btn-container[data-v-04096ca8]{
+        margin-right: 6px!important;
+        margin-left: 6px!important;
+    }
+
+}
+
+
+@media screen and(max-width:575px) {
+    .nav_link {
+        padding: 0.25rem 0.4rem;
+    }
+
+    .sec_bsc_charts {
+        .sec_heading {
+            font-size: 27px;
+
+        }
+
+        .sec_info {
+            font-size: 24px;
+        }
+    }
+
+    .card-list-item[data-v-5a60c796]{
+        font-size: 10px!important;
+    }
+
+    
+
+    
+}
+.top_token_tmb{
+    max-width: 100%!important;
+}
+
+.cssfx-hypnosis-loader{
+    margin: auto;
+    top: 50%;
+}
