@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { APIURL, BSCURL, HOST } from '../config';
 import { ToastContainer, toast } from 'react-toastify';
-import { getRequest, postRequest } from "../Action";
+import { getRequest } from "../Action";
 import 'react-toastify/dist/ReactToastify.css';
 
 const CheckComponent = () => {

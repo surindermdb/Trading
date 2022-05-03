@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { APIURL, BSCURL, HOST } from '../config';
-import { getRequest, postRequest } from "../Action";
+import { getRequest } from "../Action";
 import { Hypnosis } from "react-cssfx-loading";
 
 const PoolComponent = () => {

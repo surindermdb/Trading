@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { APIURL, BSCURL, HOST } from '../config';
-import { getRequest, postRequest,toPlainString } from "../Action";
+import { getRequest,toPlainString } from "../Action";
 const TopToken = (props) => {
 
     // let favToken=props.refreshToken;
