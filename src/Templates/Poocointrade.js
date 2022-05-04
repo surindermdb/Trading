@@ -1,3 +1,4 @@
+import { createChart } from 'lightweight-charts';
 import TopToken from '../component/TopToken';
 import TokenDetail from '../component/TokenDetail';
 import Pool from '../component/PoolRightComponent';
@@ -7,8 +8,8 @@ import HeaderSection from '../Header-Footer/Header_new';
 import { useEffect, useState } from 'react';
 import { getRequest, postRequest } from "../Action";
 import { APIURL, BSCURL, HOST } from "../config";
-// import LightWeightChart from '../component/lightweightChart';
 let intervalID;
+let candlestickSeries;
 
 const TrendingChart = () => {
 
@@ -22,6 +23,7 @@ const TrendingChart = () => {
     const [refreshToken, setRefreshToken] = useState([]);
     const [tokendecimal, setDecimal] = useState(18);
     const [liquidity, setLiquidity] = useState('-');
+    const [klineData,setKlineData]=useState([]);
 
     useEffect(() => {
 
@@ -56,6 +58,61 @@ const TrendingChart = () => {
                 popup.style.display = "block";
             }
         }
+
+        var darkTheme = {
+            chart: {
+                layout: {
+                    backgroundColor: '#131722',
+                    lineColor: '#131722',
+                    textColor: '#D9D9D9',
+                },
+                watermark: {
+                    color: 'rgba(0, 0, 0, 0)',
+                },
+                crosshair: {
+                    color: '#758696',
+                },
+                grid: {
+                    vertLines: {
+                        color: '#363C4E',
+                    },
+                    horzLines: {
+                        color: '#363C4E',
+                    },
+                },
+            },
+            series: {
+                    topColor: 'rgba(32, 226, 47, 0.56)',
+                    bottomColor: 'rgba(32, 226, 47, 0.04)',
+                    lineColor: 'rgba(32, 226, 47, 1)',
+            },
+        };
+
+        let divid=document.querySelector("#Lightchart");
+        const chart = createChart(divid, { height: 610 });
+        candlestickSeries = chart.addCandlestickSeries();
+        candlestickSeries.setData([]);
+        chart.timeScale().fitContent();
+        chart.applyOptions(darkTheme.chart);
+        chart.applyOptions({
+            localization: {
+                locale: 'en-US',
+                // dateFormat: 'yyyy/MM/dd',
+            },
+            priceScale: {
+                position: 'right',
+                mode: 1,
+                autoScale: true,
+                invertScale: false,
+                alignLabels: true,
+                borderVisible: true,
+                borderColor: '#555ffd',
+                scaleMargins: {
+                    top: 0.30,
+                    bottom: 0.25,
+                },
+            },
+        });
 
     }, []);
 
@@ -112,10 +169,10 @@ const TrendingChart = () => {
     // get pool pair list that show in right component in pool tab 
     const getPoolPair = async (address) => {
         let data = await getRequest(APIURL + 'poolpair?address=', address);
-        let decimal = data != undefined ? data.token.decimal : '18';
+        let decimal = data != undefined && data.token!=undefined ? data.token.decimal : '18';
         setDecimal(decimal);
         setPoolPair(data != undefined ? data.pairs : []);
-        if (data != undefined && data.pairs.length > 0) {
+        if (data != undefined && data.pairs!=undefined && data.pairs.length > 0) {
             let liquidity = 0.0;
             let symbl=data.token.symbol;
             if (data.pairs[0].token0_symbol === symbl) {
@@ -124,6 +181,9 @@ const TrendingChart = () => {
             else {
                 liquidity = data.pairs[0].reserve0 * data.pairs[0].token0_price_usd * 2;
             }
+            let klinedata = await getRequest(APIURL + 'kline?address=', data.pairs[0].pair);
+            candlestickSeries.setData(klinedata);
+            setKlineData(klinedata);
             setLiquidity(liquidity);
         }
     };
@@ -151,8 +211,12 @@ const TrendingChart = () => {
         getTokenExtraDetail(address);
     };
 
-    const changeChartByPair=(index,liquidity)=>{
+    const changeChartByPair=async(index,liquidity)=>{
         console.log(index);
+        let klinedata = await getRequest(APIURL + 'kline?address=', poolPair[index].pair);
+        candlestickSeries.setData(klinedata);
+        setKlineData(klinedata);
+        
         setLiquidity(liquidity);
     }
 
@@ -168,7 +232,7 @@ const TrendingChart = () => {
                         <div className='sec_content_trede_chart_inner'>
                             <TopToken changeHotAddress={changeHotAddress} refreshToken={refreshToken} />
                             {/* < !--Section Graph-- > */}
-                            <div className='treding_chart'>
+                            {/* <div className='treding_chart'>
                                 <TradingViewWidget
                                     height="610"
                                     width="100%"
@@ -186,19 +250,18 @@ const TrendingChart = () => {
                                     popup_height="550"
                                     container_id="tradingview_d0018"
                                 />
+                            </div> */}
+                            <div id="Lightchart" style={{paddingLeft:'4px'}}>
+                        
                             </div>
                             {/* <Wallet /> */}
                             <Pool symbol={symbol} poolPairs={poolPair} changeChartByPair={changeChartByPair}/>
                         </div>
                     </div>
-                    {/* <div>
-                        <LightWeightChart />
-                    </div> */}
+                    
                     {/* < !--Token Trade-- > */}
                     <Trade tradeHistory={trades} symbol={symbol} />
-                    {/* <div className="TradingViewChart_tradingViewChart__39mEQ" id="tv-chart-container-2022-04-28T10:48:01.604+05:30">
-                        <iframe id="tradingview_4dc36" name="tradingview_4dc36" src="https://poocoin.app/charts1/charting_library/en-tv-chart.ca0cc69b.html#symbol=0x449aed32c1685dbeca28d1ae45462b6156a6096d-0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c-BLT-BNB&amp;interval=15&amp;widgetbar=%7B%22details%22%3Afalse%2C%22watchlist%22%3Afalse%2C%22watchlist_settings%22%3A%7B%22default_symbols%22%3A%5B%5D%7D%7D&amp;timeFrames=%5B%7B%22text%22%3A%221m%22%2C%22resolution%22%3A%2260%22%2C%22description%22%3A%221%20Month%22%7D%2C%7B%22text%22%3A%221w%22%2C%22resolution%22%3A%2215%22%2C%22description%22%3A%225%20Days%22%7D%2C%7B%22text%22%3A%221d%22%2C%22resolution%22%3A%221%22%2C%22description%22%3A%221%20Day%22%7D%5D&amp;locale=en&amp;uid=tradingview_4dc36&amp;clientId=0&amp;userId=0&amp;chartsStorageVer=1.0&amp;debug=false&amp;timezone=Asia%2FCalcutta&amp;theme=Dark" frameborder="0" allowtransparency="true" scrolling="no" allowfullscreen="" style={{display: 'block', width: '100%', height: '100%'}}></iframe>
-                        </div> */}
+                   
                     {/* < !--Footer-- > */}
                     {/* <Footer /> */}
                 </section> : null
