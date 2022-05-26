@@ -3,7 +3,7 @@ const axios = require("axios");
 // Get Function for all request
 const getRequest=async (url,parameter)=>{
      
-    if(parameter!=''){
+    if(parameter!='' && parameter!=undefined){
         url=url + parameter;
     }
     var data =  await axios.get(url)

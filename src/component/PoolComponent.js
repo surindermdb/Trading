@@ -18,7 +18,7 @@ const PoolComponent = () => {
 
     return (
         <>
-            <main className="main-container" data-v-2026486a="" style={{ upColor: '#12473F', downColor: '#572533', paddingTop: '20px' }}>
+            <main className="main-container" data-v-2026486a="" style={{ upColor: '#12473F', downColor: '#572533', paddingTop: '20px', overflowX:'auto' }}>
                 <section className="home-content" data-v-2e7b72c4="" data-v-2026486a="">
                     <div className="container" data-v-2e7b72c4="">
 

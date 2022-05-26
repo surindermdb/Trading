@@ -8,6 +8,7 @@ import HeaderSection from '../Header-Footer/Header_new';
 import { useEffect, useState } from 'react';
 import { getRequest, postRequest } from "../Action";
 import { APIURL, BSCURL, HOST } from "../config";
+import MobileTabComponent from '../component/mobileTabComponent';
 let intervalID;
 let candlestickSeries;
 
@@ -15,7 +16,7 @@ const TrendingChart = () => {
 
     const [symbol, setsymbol] = useState('BLT');
     const [item, setItem] = useState({});
-    const [desktopView, setDesktopView] = useState(true);
+    const [mobileView, setMobileView] = useState(false);
     const [totalSupply, setTotalSupply] = useState(0);
     const [trades, setTrades] = useState([]);
     const [poolPair, setPoolPair] = useState([]);
@@ -23,7 +24,7 @@ const TrendingChart = () => {
     const [refreshToken, setRefreshToken] = useState([]);
     const [tokendecimal, setDecimal] = useState(18);
     const [liquidity, setLiquidity] = useState('-');
-    const [klineData,setKlineData]=useState([]);
+    const [klineData, setKlineData] = useState([]);
 
     useEffect(() => {
 
@@ -37,9 +38,18 @@ const TrendingChart = () => {
             getTokenExtraDetail(info.address);
         }
 
-        if (window.screen.width < 224) {
-            setDesktopView(false);
+        if (window.screen.width < 768) {
+            setMobileView(true);
         }
+
+        window.addEventListener('resize', function (event) {
+            if (window.screen.width < 768) {
+                setMobileView(true);
+            }
+            else {
+                setMobileView(false);
+            }
+        }, true);
 
         window.onclick = function (event) {
             // mbtnsrch
@@ -82,13 +92,13 @@ const TrendingChart = () => {
                 },
             },
             series: {
-                    topColor: 'rgba(32, 226, 47, 0.56)',
-                    bottomColor: 'rgba(32, 226, 47, 0.04)',
-                    lineColor: 'rgba(32, 226, 47, 1)',
+                topColor: 'rgba(32, 226, 47, 0.56)',
+                bottomColor: 'rgba(32, 226, 47, 0.04)',
+                lineColor: 'rgba(32, 226, 47, 1)',
             },
         };
 
-        let divid=document.querySelector("#Lightchart");
+        let divid = document.querySelector("#Lightchart");
         const chart = createChart(divid, { height: 610 });
         candlestickSeries = chart.addCandlestickSeries();
         candlestickSeries.setData([]);
@@ -169,12 +179,12 @@ const TrendingChart = () => {
     // get pool pair list that show in right component in pool tab 
     const getPoolPair = async (address) => {
         let data = await getRequest(APIURL + 'poolpair?address=', address);
-        let decimal = data != undefined && data.token!=undefined ? data.token.decimal : '18';
+        let decimal = data != undefined && data.token != undefined ? data.token.decimal : '18';
         setDecimal(decimal);
         setPoolPair(data != undefined ? data.pairs : []);
-        if (data != undefined && data.pairs!=undefined && data.pairs.length > 0) {
+        if (data != undefined && data.pairs != undefined && data.pairs.length > 0) {
             let liquidity = 0.0;
-            let symbl=data.token.symbol;
+            let symbl = data.token.symbol;
             if (data.pairs[0].token0_symbol === symbl) {
                 liquidity = data.pairs[0].reserve1 * data.pairs[0].token1_price_usd * 2;
             }
@@ -211,12 +221,12 @@ const TrendingChart = () => {
         getTokenExtraDetail(address);
     };
 
-    const changeChartByPair=async(index,liquidity)=>{
+    const changeChartByPair = async (index, liquidity) => {
         console.log(index);
         let klinedata = await getRequest(APIURL + 'kline?address=', poolPair[index].pair);
         candlestickSeries.setData(klinedata);
         setKlineData(klinedata);
-        
+
         setLiquidity(liquidity);
     }
 
@@ -224,48 +234,31 @@ const TrendingChart = () => {
 
         <>
             <HeaderSection changeMapWithSymbol={changeMapWithSymbol} />
-            {desktopView ?
-                <section className='sec_trede_chart'>
-                    {/* < !--Section Token Detail-- > */}
-                    <TokenDetail symbol={symbol} liquidity={liquidity} token={item} tokendecimal={tokendecimal} supply={totalSupply} tokenDetail={tokenDetail} refreshFavoriteToken={refreshFavoriteToken} />
-                    <div className='sec_content_trede_chart'>
-                        <div className='sec_content_trede_chart_inner'>
-                            <TopToken changeHotAddress={changeHotAddress} refreshToken={refreshToken} />
-                            {/* < !--Section Graph-- > */}
-                            {/* <div className='treding_chart'>
-                                <TradingViewWidget
-                                    height="610"
-                                    width="100%"
-                                    symbol={symbol != undefined ? symbol : 'BNB'}
-                                    timezone="Etc/UTC"
-                                    theme="dark"
-                                    interval={IntervalTypes.D}
-                                    locale="in"
-                                    toolbar_bg="#f1f3f6"
-                                    range="YTD"
-                                    allow_symbol_change="true"
-                                    hide_side_toolbar="true"
-                                    show_popup_button="true"
-                                    popup_width="1000"
-                                    popup_height="550"
-                                    container_id="tradingview_d0018"
-                                />
-                            </div> */}
-                            <div id="Lightchart" style={{paddingLeft:'4px'}}>
-                        
-                            </div>
-                            {/* <Wallet /> */}
-                            <Pool symbol={symbol} poolPairs={poolPair} changeChartByPair={changeChartByPair}/>
-                        </div>
+
+            <section className='sec_trede_chart'>
+                {/* < !--Section Token Detail-- > */}
+                <TokenDetail symbol={symbol} liquidity={liquidity} token={item} tokendecimal={tokendecimal} supply={totalSupply} tokenDetail={tokenDetail} mobileView={mobileView} refreshFavoriteToken={refreshFavoriteToken} />
+                <div className='sec_content_trede_chart'>
+                    <div className='sec_content_trede_chart_inner'>
+                        <TopToken changeHotAddress={changeHotAddress} refreshToken={refreshToken} />
+                        {/* < !--Section Graph-- > */}
+                        <div id="Lightchart"></div>
+                        {/* <Wallet /> */}
+                        <Pool symbol={symbol} poolPairs={poolPair} changeChartByPair={changeChartByPair} />
                     </div>
-                    
-                    {/* < !--Token Trade-- > */}
-                    <Trade tradeHistory={trades} symbol={symbol} />
-                   
-                    {/* < !--Footer-- > */}
-                    {/* <Footer /> */}
-                </section> : null
-            }
+                </div>
+
+                {/* < !--Token Trade-- > */}
+                <Trade tradeHistory={trades} symbol={symbol} />
+
+                {/* < !--Footer-- > */}
+                {/* <Footer /> */}
+            </section>
+            {mobileView && 
+                <MobileTabComponent />
+            }                            
+            
+
 
         </>
     )

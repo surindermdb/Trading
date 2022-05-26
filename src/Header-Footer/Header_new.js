@@ -4,6 +4,8 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
 import { APIURL, BSCURL, HOST } from '../config';
 import { postRequest, getRequest } from "../Action";
+import { faWallet} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 let iframe;
 const HeaderNew = (props) => {
@@ -18,9 +20,10 @@ const HeaderNew = (props) => {
     const handleSearchPopup = () => {
         setSearchPopup(true);
     }
-
     useEffect(() => {
-
+        if (window.screen.width < 768) {
+            setSearchBtnView(true);
+        }
         window.addEventListener('resize', function (event) {
             if (window.screen.width < 768) {
                 setSearchBtnView(true);
@@ -48,35 +51,6 @@ const HeaderNew = (props) => {
           }
           return true;
         }
-
-        // const providerOptions = {
-        //     // walletconnect: {
-        //     //   package: WalletConnectProvider,
-        //     //   options: {
-        //     //     rpc: {
-        //     //       56: 'https://bsc-dataseed1.binance.org'
-        //     //     },
-        //     //     chainId: 56
-        //     //   }
-        //     // }
-        // }
-        // const web3Modal = new Web3Modal({
-        //     network: "mainnet", // optional
-        //     cacheProvider: false, // optional
-        //     providerOptions // required
-        // });
-        // const provider = await web3Modal.connect();
-        // // await web3Modal.toggleModal();
-        // // regular web3 provider methods
-        // const newWeb3 = new Web3(provider);
-        // if (!newWeb3) {
-        //     alert('Not conntected to trust wallet');
-        //     return false;
-        // }
-        // // web3=newWeb3;
-        // const accounts = await newWeb3.eth.getAccounts();
-        // console.log(accounts);
-
     }
 
     // get searching record
@@ -144,16 +118,18 @@ const HeaderNew = (props) => {
                 <div className="content" data-v-04096ca8="">
                     <div className="header-left" data-v-04096ca8="">
                         <a aria-current="page" href="/token/0x2963dcc52549573bbfbe355674724528532c0867-bsc" className="router-link-active router-link-exact-active logo" data-v-04096ca8="">
-                            <img className="media_pc" src="/static/img/ave-logo.b550af60.svg" height="40" alt="" data-v-04096ca8="" />
+                            <img className="media_pc" src="/static/img/ave-logo.b550af60.svg" height="40" width="40px" alt="" data-v-04096ca8="" />
                             <img className="media_mobile" src={require("../assets/images/poocoin-logo.png").default} alt="" data-v-04096ca8="" />
                         </a>
-                        <div className="nav-list" data-v-04096ca8="">
-                            <a aria-current="page" href="/token/0x2963dcc52549573bbfbe355674724528532c0867-bsc" className={currentPath == 'market' || currentPath == 'token' ? "router-link-active router-link-exact-active nav-item active" : "router-link-active router-link-exact-active nav-item"} data-v-04096ca8="">Markets</a>
-                            <a href="/pool" className={currentPath == 'pool' ? "nav-item active" : "nav-item"} data-v-04096ca8="">New Pool</a>
-                            <a href="/check" className={currentPath == 'check' ? "nav-item active" : "nav-item"} data-v-04096ca8="">Check</a>
-                        </div>
+                        {searchBtnView == false &&
+                            <div className="nav-list" data-v-04096ca8="">
+                                <a aria-current="page" href="/token/0x2963dcc52549573bbfbe355674724528532c0867-bsc" className={currentPath == 'market' || currentPath == 'token' ? "router-link-active router-link-exact-active nav-item active" : "router-link-active router-link-exact-active nav-item"} data-v-04096ca8="">Markets</a>
+                                <a href="/pool" className={currentPath == 'pool' ? "nav-item active" : "nav-item"} data-v-04096ca8="">New Pool</a>
+                                <a href="/check" className={currentPath == 'check' ? "nav-item active" : "nav-item"} data-v-04096ca8="">Check</a>
+                            </div>
+                        }
                     </div>
-                    {searchBtnView == false &&
+                    {/* {searchBtnView == true && */}
                         <div className="search-btn-container" data-v-04096ca8="" >
                             <div className="d_search_btn_tmb search-btn-container_content" id="searcht" data-v-04096ca8="" onClick={handleSearchPopup} >Enter address/token</div>
                             <i className="el-icon" data-v-04096ca8="">
@@ -162,7 +138,7 @@ const HeaderNew = (props) => {
                                 </svg>
                             </i>
                         </div>
-                    }
+                    {/* } */}
 
                     <div id="dialogcontainer" className="dialog-container" data-v-04096ca8="" style={{ display: searchPopup === true ? 'block' : 'none' }}>
                         <div className="search-dialog-container" data-v-04096ca8="">
@@ -180,14 +156,14 @@ const HeaderNew = (props) => {
                             </div>
                             <div className="header-title" data-v-04096ca8="">Popular Searches</div>
                             <div className="search-content" data-v-04096ca8="">
-                                <div className="histrory" data-v-0acb6bd5="" data-v-04096ca8="">
+                                <div className="histrory tokensearch" data-v-0acb6bd5="" data-v-04096ca8="">
                                     <div className="top" data-v-0acb6bd5="">
                                         <span data-v-0acb6bd5="">Name</span>
                                         <span data-v-0acb6bd5="">Price</span>
                                     </div>
                                     {addressList.length > 0 &&
                                         < div className="el-scrollbar" data-v-0acb6bd5="">
-                                            <div className="el-scrollbar__wrap el-scrollbar__wrap--hidden-default" style={{ height: '500px', maxHeight: 'calc(100vh - 200px)' }}>
+                                            <div className="el-scrollbar__wrap el-scrollbar__wrap--hidden-default searchscroll">
                                                 <div className="el-scrollbar__view" style={{}}>
                                                     <div tabindex="0" className="vld-overlay is-active" aria-busy="false" aria-label="Loading" data-v-0acb6bd5="" style={{ display: 'none' }}>
                                                         <div className="vld-background" style={{ background: 'rgb(0, 0, 0)', opacity: '0.2', backdropFilter: 'blur(2px)' }}>
@@ -277,16 +253,8 @@ const HeaderNew = (props) => {
                         </div>
                     </div>
                     <ul data-v-04096ca8="">
-                        {/* <div className="el-dropdown" data-v-04096ca8="">
-                                <div className="el-dropdown--large el-tooltip__trigger el-tooltip__trigger">
-                                    <button className="el-button el-button--primary el-button--default li-item download-btn" type="button" data-v-04096ca8="" >
-                                        <span className="">
-                                            <i className="iconfont icon-xiazai" data-v-04096ca8=""></i>
-                                        </span>
-                                    </button>
-                                </div>
-                            </div> */}
-                        {searchBtnView == true &&
+                        
+                        {/* {searchBtnView == true &&
 
                             <li>
                                 <div id="mtxtToken" className="m_search_btn_container_tmb search-btn-container" onClick={handleSearchPopup} data-v-04096ca8="">
@@ -297,7 +265,7 @@ const HeaderNew = (props) => {
                                     </i>
                                 </div>
                             </li>
-                        }
+                        } */}
 
                         <div className="el-dropdown" data-v-0c57b22e="" data-v-04096ca8="">
                             <div className="el-dropdown--default el-tooltip__trigger el-tooltip__trigger">
@@ -321,7 +289,9 @@ const HeaderNew = (props) => {
                             </button>
                         </li>}
                         {walletAddress ==='' && <li className="li-item" data-v-04096ca8="" onClick={walletConnect}>
-                            <i className="wallet_mobile iconfont icon-wallet" data-v-04096ca8=""></i>
+                            <i className="wallet_mobile iconfont" data-v-04096ca8="">
+                            <FontAwesomeIcon icon={faWallet} />
+                            </i>
                             <button className="d_connect_tmb el-button el-button--default aex-button-primary-null" type="button" data-v-04096ca8="">
                                 <span className="">Connect</span>
                             </button>
@@ -333,7 +303,8 @@ const HeaderNew = (props) => {
                             </button>
                         </li> */}
 
-                    </ul><div className="el-overlay" style={{ zIndex: '3003', display: 'none' }}>
+                    </ul>
+                    <div className="el-overlay" style={{ zIndex: '3003', display: 'none' }}>
                         <div className="el-overlay-dialog">
                             <div className="el-dialog dialog-box dialog-max" aria-modal="true" role="dialog" aria-label="Connect" >
                                 <div className="el-dialog__header">
@@ -373,25 +344,7 @@ const HeaderNew = (props) => {
                     </div>
                 </div>
             </div>
-            {/* // <div className="mobile-header" data-v-5113f224="">
-                //     <div className="search-btn-container" data-v-0bd3bd6c="">
-                //         <div className="search-btn-container_left" data-v-0bd3bd6c="">
-                //             <div className="icon-token-container" data-v-0bd3bd6c="">
-                //                 <div className="van-image van-image--round" data-v-0bd3bd6c="" style={{ width: '0.5rem', height: '0.5rem' }}>
-                //                     <img className="van-image__img" data-src="https://s2.coinmarketcap.com/static/img/coins/64x64/7192.png" src="https://avesp.xyz/oss/chain/bsc.png" lazy="loaded" />
-                //                 </div>
-                //                 <img className="icon-svg icon-network" src={token.icon === undefined ? 'https://avesp.xyz/oss/chain/bsc.png' : token.icon.includes('https') == true ? token.icon : BSCURL + "/token/images/" + token.icon} alt="" srcSet="" data-v-0bd3bd6c="" />
-                //             </div>
-                //             <span className="token-symbol" data-v-0bd3bd6c="">{symbol}</span>
-                //         </div>
-                //         <div id="mtxtToken" className="search-btn-container_content" data-v-0bd3bd6c="" onClick={handleMpopup}>Address</div>
-                //         <i className="van-badge__wrapper van-icon van-icon-search" data-v-0bd3bd6c=""></i>
-                //     </div>
-                //     <i className="van-badge__wrapper iconfont icon iconfont icon-wallet" data-v-5113f224="" style={{ color: 'rgb(135, 143, 188)', fontSize: '0.6rem' }}>
-                //     </i>
-                //     <MSearchList msearchPopup={msearchPopup} onSlectedAddress={onSlectedAddress} />
-                // </div>
-             */}
+            
 
         </>
     )

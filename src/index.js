@@ -9,6 +9,8 @@ import './assets/scss/token.scss';
 // import './assets/scss/mobile.scss';
 import './assets/scss/check.scss';
 import './assets/scss/pool.scss';
+import './assets/scss/mobileTokenDeail.scss';
+import './assets/scss/mobileTab.scss'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

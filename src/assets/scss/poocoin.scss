@@ -117,6 +117,11 @@ h1[data-v-77152990] {
     justify-content: center
 }
 
+.tokensearch .searchscroll{
+    height: 500px;
+    max-height: calc(100vh - 200px)
+}
+
 .histrory .empty>div[data-v-0acb6bd5] {
     text-align: center
 }
@@ -316,7 +321,7 @@ h1[data-v-77152990] {
     .head .content .media_mobile[data-v-04096ca8] {
         display: inline-block;
         width: 40px;
-        height: 40px
+        // height: 40px
     }
 }
 
@@ -369,7 +374,7 @@ h1[data-v-77152990] {
     display: flex;
     align-items: center;
     height: 40px;
-    background: #191e2d;
+    background: #3b436d;
     border-radius: 10px;
     padding: 9px;
     cursor: pointer
@@ -523,15 +528,15 @@ h1[data-v-77152990] {
 }
 
 @media screen and (max-width:768px) {
-    .search-btn-container[data-v-04096ca8] {
-        min-width: 150px;
-        margin-right: 10px;
-        margin-left: 10px
-    }
+    // .search-btn-container[data-v-04096ca8] {
+    //     min-width: 150px;
+    //     margin-right: 10px;
+    //     margin-left: 10px
+    // }
 
     .wallet_mobile[data-v-04096ca8] {
         display: inline-block;
-        font-size: 40px;
+        font-size: 16px;
         color: #787b86
     }
 

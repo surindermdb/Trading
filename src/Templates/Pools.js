@@ -3,11 +3,23 @@ import { useEffect, useState } from 'react';
 import { getRequest } from "../Action";
 import { APIURL, BSCURL,HOST } from "../config";
 import PoolComponent from '../component/PoolComponent';
+import MobileTabComponent from '../component/mobileTabComponent';
 
 const Pools = () => {
-
+    const [mobileView, setMobileView] = useState(false);
     useEffect(() => {
 
+        if (window.screen.width < 768) {
+            setMobileView(true);
+        }
+        window.addEventListener('resize', function (event) {
+            if (window.screen.width < 768) {
+                setMobileView(true);
+            }
+            else {
+                setMobileView(false);
+            }
+        }, true);
         window.onclick = function (event) {
             if (event.target.id !== 'txtToken' && event.target.id !== 'searcht' 
             && event.target.id !== 'mtxtToken' && event.target.id !== 'van-search-15-input'
@@ -32,19 +44,15 @@ const Pools = () => {
         window.location.href=nextURL;
     }
 
-    // const getTotalSupply = async (address, token) => {
-    //     const nextURL = HOST+'/token/' + token.address;
-    //     const nextTitle = 'poocoin';
-    //     const nextState = { additionalInformation: 'Updated the URL with JS' };
-    //     window.history.pushState(nextState, nextTitle, nextURL);
-    //     window.location.href=nextURL;
-    // }
-
     return (
 
         <>
             <HeaderSection changeMapWithSymbol={changeMapWithSymbol} />
             <PoolComponent />
+            {mobileView && 
+            <MobileTabComponent />
+            }
+            
         </>
     )
 }

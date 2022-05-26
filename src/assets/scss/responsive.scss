@@ -43,8 +43,8 @@
     }
     .search-btn-container[data-v-04096ca8]{
         
-        max-width: 250px!important;
-        min-width: 250px!important;
+        max-width: 240px!important;
+        min-width: 240px!important;
     }
     .m_el-dropdown-link{
         display: none !important;
@@ -81,17 +81,17 @@
     .d_connect_tmb{
         display: none!important;
     }
-    .d_search_btn_tmb{
-        display: none!important;
-    }
-    .search-btn-container[data-v-04096ca8]{
-        max-width: 14px!important;
-        min-width: 14px!important;
-    }
-    .search-btn-container[data-v-04096ca8]{
-        padding: 2px 20px!important;
-        justify-content: center;
-    }
+    // .d_search_btn_tmb{
+    //     display: none!important;
+    // }
+    // .search-btn-container[data-v-04096ca8]{
+    //     max-width: 14px!important;
+    //     min-width: 14px!important;
+    // }
+    // .search-btn-container[data-v-04096ca8]{
+    //     padding: 2px 20px!important;
+    //     justify-content: center;
+    // }
     .nav-list .nav-item[data-v-04096ca8]{
         font-size: 12px!important;
     }
@@ -104,6 +104,47 @@
     .search-btn-container[data-v-04096ca8]{
         margin-right: 6px!important;
         margin-left: 6px!important;
+    }
+
+    .el-row{
+        display: grid !important;
+    }
+    .el-col-12{
+        max-width: 100% !important;
+    }
+
+    .Home_section__16Giz{
+        max-width: 100% !important;
+    }
+
+    .check-input[data-v-5a60c796]{
+        width: 100% !important;
+        margin: 30px auto 30px !important;
+    }
+
+    .container {
+        width: 1200px !important;
+        margin: 0 auto;
+    }
+
+    .home-content{
+        overflow-x: auto !important;
+    }
+
+    .cssfx-hypnosis-loader{
+        margin: 0 !important;
+        top: 0 !important;
+    }
+
+
+   
+    .content .histrory[data-v-a0a9e358] {
+        width: 320px;
+        overflow: scroll;
+        white-space: nowrap;
+    }
+    .content .histrory[data-v-a0a9e358] > *{
+        min-width: 1000px;
     }
 
 }
@@ -144,4 +185,33 @@
 
 canvas{
     z-index: 0 !important;
+}
+
+.ExtraInfoBlock__DescriptionHeader {
+    color: #fff;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    margin-bottom: 13px;
+    margin-top: 0;
+    text-transform: capitalize;
+}
+
+.ExtraInfoBlock__DescriptionText {
+    color: hsla(0,0%,100%,.7);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    margin-bottom: 8px;
+}
+
+.ExtraInfoBlock__DescriptionText h2,.ExtraInfoBlock__DescriptionText p{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.tv-lightweight-charts{
+    padding-left: 4px;
 }

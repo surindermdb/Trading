@@ -394,8 +394,23 @@
     .buyOrsell .content[data-v-50a903b6] {
         padding: 16px
     }
-    .tokenInfo-container[data-v-3ff813d6] {
-        display: grid;
+    // .tokenInfo-container[data-v-3ff813d6] {
+    //     display: grid;
+    // }
+
+    .flex{
+        display: contents;
+    }
+    .histrory .empty[data-v-0acb6bd5] {
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center
+    }
+
+    .tokensearch .searchscroll{
+        height: 200px;
+        max-height: calc(100vh - 200px)
     }
 }
 
