@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { toPlainString } from '../Action/index';
 const Trade = (props) => {
 
@@ -9,9 +10,16 @@ const Trade = (props) => {
             "https://bscscan.com/tx/" + hash,
             '_blank' // <- This is what makes it open in a new window.
         );
-
     }
 
+    
+    // useEffect(()=>{
+    //     let history= document.window;
+    //             // console.log(history.innerWidth)
+    //             history.addEventListener("resize",()=>{
+    //                 console.log(history)
+    //             });
+    // })
     return (
         <>
             <div className="buyOrsell common" data-v-50a903b6="" data-v-a46acd44="">

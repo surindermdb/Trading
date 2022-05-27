@@ -36,6 +36,7 @@
 }
 
 .check-note .check-note_c[data-v-5a60c796] {
+    font-size: 15px;
     padding-left: 30px;
     font-family: Poppins-Regular,PingFang SC,miui,Hiragino Sans GB,Microsoft Yahei,sans-serif;
 }
@@ -206,9 +207,14 @@
     font-size: 20px;
 }
 
-
+.check-content .el-row td{
+    font-size: 14px;
+}
+.ExtraInfoBlock__DescriptionHeader{
+    padding: 0!important;
+}
 .Home_section__16Giz {
-    max-width: 66%;
+    max-width: 100%;
     padding: 1.5rem;
     text-align: left;
     white-space: pre-wrap;

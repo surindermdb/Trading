@@ -51,13 +51,13 @@ const Pool = (props) => {
                                                     liquidity= liquidity.toFixed(1);
                                                 }
                                                 return <tr className={index==currentIndex?"active":''} data-v-0b1dff47="" onClick={(e)=>changePair(e,index,liquidity)}>
-                                                <td data-v-0b1dff47=""></td>
-                                                <td data-v-0b1dff47="">
+                                                <td  data-v-0b1dff47=""></td>
+                                                <td  data-v-0b1dff47="">
                                                     <span className="main" data-v-0b1dff47="">{item.token0_symbol}</span>
                                                     <span className="minor" data-v-0b1dff47="">/{item.token1_symbol}</span>
                                                 </td>
                                                 <td data-v-0b1dff47="" style={{color:'#fff'}}>{item.amm}</td>
-                                                <td data-v-0b1dff47="">
+                                                <td  data-v-0b1dff47="">
                                                     <span className="main" data-v-0b1dff47="">{item.reserve0.toFixed(2)}</span>
                                                     <span className="minor" data-v-0b1dff47="">/{item.reserve1.toFixed(3)}</span>
                                                 </td>

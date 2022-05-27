@@ -10,6 +10,16 @@
     }
 }
 
+@media screen and(max-width:1024px) {
+    // .is-guttered.top_token_tmb{
+    //     grid-column:span 2;
+    // }
+    .sec_content_trede_chart_inner{
+        grid-template-columns:1fr ;
+        gap: 10px;
+    }
+}
+
 @media screen and(max-width:991px) {
 
     // Header Responsive Code
@@ -37,10 +47,7 @@
         transform: initial;
         margin: auto;
     }
-    .sec_content_trede_chart_inner{
-        grid-template-columns: 1fr 1fr ;
-        gap: 10px;
-    }
+    
     .search-btn-container[data-v-04096ca8]{
         
         max-width: 240px!important;
@@ -49,6 +56,7 @@
     .m_el-dropdown-link{
         display: none !important;
     }
+    
 }
 
 @media screen and(max-width:767px) {
@@ -65,7 +73,6 @@
     .sec_content_trede_chart_inner{
         grid-template-columns: 1fr;
     }
-
     
     // .head .content[data-v-04096ca8]{
     //     flex-direction: column;
@@ -139,12 +146,15 @@
 
    
     .content .histrory[data-v-a0a9e358] {
-        width: 320px;
+        width: 575px;
         overflow: scroll;
         white-space: nowrap;
     }
     .content .histrory[data-v-a0a9e358] > *{
         min-width: 1000px;
+    }
+    .check-note .check-note_c[data-v-5a60c796]{
+        padding-left: 0px!important;
     }
 
 }
@@ -154,7 +164,9 @@
     .nav_link {
         padding: 0.25rem 0.4rem;
     }
-
+    .content .histrory[data-v-a0a9e358] {
+        width: 320px;
+    }
     .sec_bsc_charts {
         .sec_heading {
             font-size: 27px;
@@ -166,13 +178,13 @@
         }
     }
 
-    .card-list-item[data-v-5a60c796]{
-        font-size: 10px!important;
+    // .card-list-item[data-v-5a60c796]{
+    //     font-size: 10px!important;
+    // }
+    
+    .m_el-dropdown-link.el-dropdown-link{
+        display: none!important;
     }
-
-    
-
-    
 }
 .top_token_tmb{
     max-width: 100%!important;
@@ -189,7 +201,7 @@ canvas{
 
 .ExtraInfoBlock__DescriptionHeader {
     color: #fff;
-    font-size: 24px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 400;
     line-height: 24px;
@@ -214,4 +226,8 @@ canvas{
 
 .tv-lightweight-charts{
     padding-left: 4px;
+}
+
+.el-scrollbar__view .main{
+    display: block;
 }
