@@ -109,9 +109,15 @@ const TrendingChart = () => {
                 locale: 'en-US',
                 // dateFormat: 'yyyy/MM/dd',
             },
+            handleScroll:{
+                vertTouchDrag:false,
+                mouseWheel:false,
+                pressedMouseMove:false
+            },
             priceScale: {
                 position: 'right',
                 mode: 1,
+                
                 autoScale: true,
                 invertScale: false,
                 alignLabels: true,
