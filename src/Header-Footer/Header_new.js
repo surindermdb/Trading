@@ -118,7 +118,7 @@ const HeaderNew = (props) => {
                 <div className="content" data-v-04096ca8="">
                     <div className="header-left" data-v-04096ca8="">
                         <a aria-current="page" href="/token/0x2963dcc52549573bbfbe355674724528532c0867-bsc" className="router-link-active router-link-exact-active logo" data-v-04096ca8="">
-                            <img className="media_pc" src="/static/img/ave-logo.b550af60.svg" height="40" width="40px" alt="" data-v-04096ca8="" />
+                            <img className="media_pc" src={require("../assets/images/poocoin-logo.png").default} height="40" width="40px" alt="" data-v-04096ca8="" />
                             <img className="media_mobile" src={require("../assets/images/poocoin-logo.png").default} alt="" data-v-04096ca8="" />
                         </a>
                         {searchBtnView == false &&

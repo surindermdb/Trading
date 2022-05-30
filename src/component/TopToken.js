@@ -22,6 +22,7 @@ const TopToken = (props) => {
             gainerData.sort(sorter1);
             setGainerToken(gainerData);
             setHotToken(data);
+            setDefaultToken(data[0]);
         }
         const getRecentToken = async () => {
             let data = await getRequest(APIURL + 'recent/', '');
@@ -63,6 +64,28 @@ const TopToken = (props) => {
     // store any selected token in local storage
     const stroeTokenData = (e, item) => {
         e.preventDefault();
+        let price = item.Price.split('BTC')[0].split('.');
+        price = price[0] + '.' + price[1];
+        let token = {
+            address: item.address,
+            icon: BSCURL + item.tokenDetails.src,
+            price: price,
+            holder: item.Holders,
+            marketCap: item.MarketCap,
+            volume: item.Volume,
+            change: item.Change.toString(),
+            symbol: item.tokenDetails.tokenSymbol,
+            // supply:supply
+        }
+        localStorage.setItem("tokenInfo", JSON.stringify(token));
+        const nextURL = HOST + '/token/' + token.address;
+        const nextTitle = 'poocoin';
+        const nextState = { additionalInformation: 'Updated the URL with JS' };
+        window.history.pushState(nextState, nextTitle, nextURL);
+        props.changeHotAddress(token);
+    }
+
+    const setDefaultToken=(item)=>{
         let price = item.Price.split('BTC')[0].split('.');
         price = price[0] + '.' + price[1];
         let token = {

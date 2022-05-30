@@ -156,11 +156,31 @@
     .check-note .check-note_c[data-v-5a60c796]{
         padding-left: 0px!important;
     }
-
+    .el-col.el-col-24.el-col-xs-24.el-col-sm-24.el-col-md-14.el-col-lg-14.el-col-xl-14.is-guttered{
+        padding: 0!important;
+    }
+    .share-container[data-v-5a60c796]{
+        text-align: center!important;
+    }
+    .Home_section__16Giz{
+        padding: 10px!important;
+    }
+    .histrory .content[data-v-a0a9e358] li,.histrory .top[data-v-a0a9e358]{
+        justify-content: start!important;
+        gap: 0px!important;
+    }
+    .histrory .top[data-v-a0a9e358],.histrory .content .flex[data-v-a0a9e358]{
+        display: grid!important;
+        grid-template-columns: 150px 100px 100px 170px 100px 100px 100px; 
+        
+    }    
+    
+    
 }
 
 
 @media screen and(max-width:575px) {
+    
     .nav_link {
         padding: 0.25rem 0.4rem;
     }
