@@ -3,19 +3,18 @@ import TopToken from '../component/TopToken';
 import TokenDetail from '../component/TokenDetail';
 import Pool from '../component/PoolRightComponent';
 import Trade from '../component/Trade';
+import TradingViewWidget, { Themes, IntervalTypes } from 'react-tradingview-widget';
 import HeaderSection from '../Header-Footer/Header_new';
 import { useEffect, useState } from 'react';
 import { getRequest, postRequest } from "../Action";
 import { APIURL, BSCURL, HOST } from "../config";
 import MobileTabComponent from '../component/mobileTabComponent';
-
-import TVChartContainer from '../component/TradeChart';
 let intervalID;
 let candlestickSeries;
 
 const TrendingChart = () => {
 
-    const [symbol, setsymbol] = useState('ETH');
+    const [symbol, setsymbol] = useState('BLT');
     const [item, setItem] = useState({});
     const [mobileView, setMobileView] = useState(false);
     const [totalSupply, setTotalSupply] = useState(0);
@@ -199,10 +198,8 @@ const TrendingChart = () => {
                 liquidity = data.pairs[0].reserve0 * data.pairs[0].token0_price_usd * 2;
             }
             // let klinedata = await getRequest(APIURL + 'kline?address=', data.pairs[0].pair);
-            let klinedata = data.pairs[0].pair;
             // candlestickSeries.setData(klinedata);
-            setKlineData(klinedata);
-            localStorage.setItem('poolPair',klinedata)
+            // setKlineData(klinedata);
             setLiquidity(liquidity);
         }
     };
@@ -226,16 +223,16 @@ const TrendingChart = () => {
 
     const refreshData = (address) => {
         getTradeHistory(address);
-        // getPoolPair(address);
+        getPoolPair(address);
         getTokenExtraDetail(address);
     };
 
     const changeChartByPair = async (index, liquidity) => {
         console.log(index);
-        let klinedata = poolPair[index].pair;
-        // candlestickSeries.setData(klinedata);
-        setKlineData(poolPair[index].pair);
-        localStorage.setItem('poolPair',klinedata);
+        let klinedata = await getRequest(APIURL + 'kline?address=', poolPair[index].pair);
+        candlestickSeries.setData(klinedata);
+        setKlineData(klinedata);
+
         setLiquidity(liquidity);
     }
 
@@ -252,7 +249,23 @@ const TrendingChart = () => {
                         <TopToken changeHotAddress={changeHotAddress} refreshToken={refreshToken} />
                         {/* < !--Section Graph-- > */}
                         {/* <div id="Lightchart"></div> */}
-                        <TVChartContainer klinePair={klineData} symbol={symbol}  />
+                        <TradingViewWidget
+                                height="610"
+                                width="100%"
+                                symbol={symbol != undefined ? symbol : 'BNB'}
+                                timezone="Etc/UTC"
+                                theme="dark"
+                                locale="in"
+                                toolbar_bg="#f1f3f6"
+                                range="YTD"
+                                interval= "D"
+                                allow_symbol_change="true"
+                                show_popup_button="true"
+                                popup_width="1000"
+                                popup_height="550"
+                                hide_side_toolbar= "false"
+                                container_id="tradingview_d0018"
+                            />
                         {/* <Wallet /> */}
                         <Pool symbol={symbol} poolPairs={poolPair} changeChartByPair={changeChartByPair} />
                     </div>

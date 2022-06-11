@@ -51,7 +51,7 @@ const TokenDetail = (props) => {
 
 
     let extraDetail = props.tokenDetail;
-    if (extraDetail.highestPrice_24 != undefined) {
+    if (extraDetail!=undefined && extraDetail.highestPrice_24 != undefined) {
         let highestPrice = toPlainString(extraDetail.highestPrice_24);
         // console.log(price);
         var m = -Math.floor(Math.log10(highestPrice) + 1);
@@ -67,7 +67,7 @@ const TokenDetail = (props) => {
         highPrice = highestPrice;
     }
 
-    if (extraDetail.lowestPrice_24 != undefined) {
+    if (extraDetail!=undefined && extraDetail.lowestPrice_24 != undefined) {
         let lowestPrice = toPlainString(extraDetail.lowestPrice_24);
         // console.log(price);
         var m = -Math.floor(Math.log10(lowestPrice) + 1);
@@ -314,7 +314,8 @@ const TokenDetail = (props) => {
                                             <table className="table-box" data-v-4511810d="">
                                                 <tr data-v-4511810d="">
                                                     <td className="table-label" data-v-4511810d="">24h Txs</td>
-                                                    <td className="white" data-v-4511810d="">{extraDetail.exchangeTime_24}</td>
+                                                    <td className="white" data-v-4511810d="">{extraDetail!=undefined && extraDetail.lowestPrice_24 != undefined?extraDetail.exchangeTime_24:''}</td>
+                                                    
                                                 </tr>
 
                                                 <tr data-v-4511810d="">

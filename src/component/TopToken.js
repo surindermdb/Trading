@@ -176,7 +176,7 @@ const TopToken = (props) => {
                             <div style={{ display: currentTab == 'favorate' ? 'block' : 'none' }} className="el-scrollbar" data-v-590ed78a="">
                                 {favoriteToken.length > 0 &&
                                     <>
-                                        <div className="el-scrollbar__wrap el-scrollbar__wrap--hidden-default" style={{ height: '500px' }}>
+                                        <div className="el-scrollbar__wrap el-scrollbar__wrap--hidden-default tokenData">
                                             <div className="el-scrollbar__view" style={{}}>
                                                 <div tabindex="0" className="vld-overlay is-active" aria-busy="false" aria-label="Loading" data-v-590ed78a="" style={{ display: 'none' }}>
                                                     <div className="vld-background" style={{ background: 'rgb(0, 0, 0)', opacity: '0.2', backdropFilter: 'blur(2px)' }}>
@@ -245,7 +245,7 @@ const TopToken = (props) => {
                                     </>
                                 }
                                 {favoriteToken.length > 0 && favoriteToken === null &&
-                                    <div className="empty" data-v-590ed78a="" style={{ height: '468px' }}>
+                                    <div className="empty tokenData" data-v-590ed78a="">
                                         <div data-v-590ed78a="" style={{ display: 'grid' }}>
                                             <img src={require("../assets/images/empty-black.svg").default} data-v-590ed78a="" />
                                             <span data-v-590ed78a="">No Data</span>
@@ -254,7 +254,7 @@ const TopToken = (props) => {
                                 }
                             </div>
                             <div style={{ display: currentTab == 'hot' ? 'block' : 'none' }} className="el-scrollbar" data-v-590ed78a="">
-                                <div className="el-scrollbar__wrap el-scrollbar__wrap--hidden-default" style={{ height: '500px' }}>
+                                <div className="el-scrollbar__wrap el-scrollbar__wrap--hidden-default tokenData" >
                                     <div className="el-scrollbar__view" style={{}}>
                                         <div tabindex="0" className="vld-overlay is-active" aria-busy="false" aria-label="Loading" data-v-590ed78a="" style={{ display: 'none' }}>
                                             <div className="vld-background" style={{ background: 'rgb(0, 0, 0)', opacity: '0.2', backdropFilter: 'blur(2px)' }}>
@@ -309,7 +309,7 @@ const TopToken = (props) => {
                                 </div>
                             </div>
                             <div style={{ display: currentTab == 'gainer' ? 'block' : 'none' }} className="el-scrollbar" data-v-590ed78a="">
-                                <div className="el-scrollbar__wrap el-scrollbar__wrap--hidden-default" style={{ height: '500px' }}>
+                                <div className="el-scrollbar__wrap el-scrollbar__wrap--hidden-default tokenData" >
                                     <div className="el-scrollbar__view" style={{}}>
                                         <div tabindex="0" className="vld-overlay is-active" aria-busy="false" aria-label="Loading" data-v-590ed78a="" style={{ display: 'none' }}>
                                             <div className="vld-background" style={{ background: 'rgb(0, 0, 0)', opacity: '0.2', backdropFilter: 'blur(2px)' }}>
@@ -363,7 +363,7 @@ const TopToken = (props) => {
                                 </div>
                             </div>
                             <div style={{ display: currentTab == 'new' ? 'block' : 'none' }} className="el-scrollbar" data-v-590ed78a="">
-                                <div className="el-scrollbar__wrap el-scrollbar__wrap--hidden-default" style={{ height: '500px' }}>
+                                <div className="el-scrollbar__wrap el-scrollbar__wrap--hidden-default tokenData" >
                                     <div className="el-scrollbar__view" style={{}}>
                                         <div tabindex="0" className="vld-overlay is-active" aria-busy="false" aria-label="Loading" data-v-590ed78a="" style={{ display: 'none' }}>
                                             <div className="vld-background" style={{ background: 'rgb(0, 0, 0)', opacity: '0.2', backdropFilter: 'blur(2px)' }}>
