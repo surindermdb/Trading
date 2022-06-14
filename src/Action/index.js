@@ -15,6 +15,21 @@ const getRequest=async (url,parameter)=>{
     return data;
 }
 
+// Get Kline data request
+const getRequestKline=async (url,parameter)=>{
+     
+    if(parameter!='' && parameter!=undefined){
+        url=url + parameter;
+    }
+    var data =  await axios.get(url)
+    .then((res)=>{
+        return res.data;
+    }).catch((error)=>{
+        console.log(error.response);
+    });
+    return data;
+}
+
 // Post Function for all request
  const postRequest = async(url,parameter)=>{
     var data =  await axios.post(url + parameter)
@@ -35,4 +50,4 @@ function toPlainString(num) {
       });
   }
 
-export {getRequest,postRequest,toPlainString}
+export {getRequest,postRequest,toPlainString,getRequestKline}

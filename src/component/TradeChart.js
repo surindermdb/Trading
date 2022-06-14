@@ -11,11 +11,14 @@ import { BarWave,FadingBalls } from "react-cssfx-loading";
 const TVChartContainer = (props) => {
 
 	const [symbol, setSymbol] = useState('');
-	const [load,setLoad] = useState(false);
+	const [load, setLoad] = useState(false);
+
 	useEffect(() => {
 		renderWidget();
 		setLoad(false);
-	}, [props.symbol, props.klinePair]);
+	},[props.symbol, props.klinePair]);
+
+	// [props.symbol, props.klinePair]
 
 	const getLanguageFromURL = () => {
 		const regex = new RegExp('[\\?&]lang=([^&#]*)');
@@ -61,6 +64,7 @@ const TVChartContainer = (props) => {
 		// let symbol = await getAllSymbols();
 		// console.log(symbol)
 		// return;
+		localStorage.setItem('symbol',props.symbol);
 		const widgetOptions = {
 			symbol: props.symbol,
 			// BEWARE: no trailing slash is expected in feed URL
@@ -75,7 +79,8 @@ const TVChartContainer = (props) => {
 			autosize: option.autosize,
 			studies_overrides: option.studiesOverrides,
 			theme: 'Dark',
-			clientId: option.clientId
+			clientId: option.clientId,
+			
 		};
 
 		const widget = window.tvWidget = new window.TradingView.widget(widgetOptions);

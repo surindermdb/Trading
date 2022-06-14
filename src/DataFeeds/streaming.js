@@ -82,7 +82,7 @@ export function subscribeOnStream(
 	onResetCacheNeededCallback,
 	lastDailyBar,
 ) {
-	const parsedSymbol = parseFullSymbol(symbolInfo.ticker);
+	const parsedSymbol = parseFullSymbol(symbolInfo.full_name);
 	const channelString = `0~${parsedSymbol.exchange}~${parsedSymbol.fromSymbol}~${parsedSymbol.toSymbol}`;
 	const handler = {
 		id: subscribeUID,
@@ -92,6 +92,7 @@ export function subscribeOnStream(
 	if (subscriptionItem) {
 		// already subscribed to the channel, use the existing subscription
 		subscriptionItem.handlers.push(handler);
+		localStorage.setItem('previousSubscribeId',subscribeUID);
 		return;
 	}
 	subscriptionItem = {
@@ -101,6 +102,7 @@ export function subscribeOnStream(
 		handlers: [handler],
 	};
 	channelToSubscription.set(channelString, subscriptionItem);
+	
 	console.log('[subscribeBars]: Subscribe to streaming. Channel:', channelString);
 	// socket.emit('SubAdd', { subs: [channelString] });
 }

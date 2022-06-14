@@ -9,36 +9,38 @@ import {
 	subscribeOnStream,
 	unsubscribeFromStream,
 } from './streaming.js';
-import { getRequest } from "../Action";
+import { getRequest,getRequestKline } from "../Action";
 import { APIURL } from "../config";
+
+let ownData=null;
 
 const lastBarsCache = new Map();
 
 const configurationData = {
-	supported_resolutions: ['1', '5', '15', '60', '240', '1D','1W'],
+	supported_resolutions: ['1', '5', '15', '60', '240', '1D', '1W','1M'],
 	exchanges: [{
-		value: 'Bitfinex',
-		name: 'Bitfinex',
-		desc: 'Bitfinex',
-	},
-	{
-		value: 'Binance',
-		name: 'Binance',
-		desc: 'Binance',
-	},
-	{
-		value: 'NYSE',
-		name: 'NYSE',
-		desc: 'NYSE',
-	},
-	{
-		value: 'Ethermium',
-		name: 'Ethermium',
-		desc: 'Ethermium',
-	}, {
-		name: 'Poloniex',
-		value: 'Poloniex'
-	}
+			value: 'Bitfinex',
+				name: 'Bitfinex',
+			desc: 'Bitfinex',	
+		},
+		{
+			value: 'Binance',
+			name: 'Binance',
+			desc: 'Binance',
+		},
+		{
+			value: 'NYSE',
+			name: 'NYSE',
+			desc: 'NYSE',
+		},
+		{
+			value: 'Ethermium',
+			name: 'Ethermium',
+			desc: 'Ethermium',
+		},{
+			name : 'Poloniex',
+			value :'Poloniex'
+		}
 	],
 	symbols_types: [{
 		name: 'crypto',
@@ -69,7 +71,7 @@ async function getAllSymbols() {
 	let allSymbols = [];
 
 	for (const exchange of configurationData.exchanges) {
-		if (data.Data[exchange.value] != undefined) {
+		if(data.Data[exchange.value] !=undefined){
 			const pairs = data.Data[exchange.value].pairs;
 
 			for (const leftPairPart of Object.keys(pairs)) {
@@ -85,29 +87,29 @@ async function getAllSymbols() {
 				allSymbols = [...allSymbols, ...symbols];
 			}
 		}
-
+		
 	}
 	return allSymbols;
 }
 
 async function getAllExchangeSymbols(symbolName) {
-	let symbol = symbolName.split('/')[0];
-	const data = await makeApiRequestForSymbol('data/v2/pair/mapping/fsym?fsym=' + symbol + '&api_key=0819abaa220513dd813a2561a56c534b013d25b75e3f15fc5f3282e10d75d1d0');
+	let symbol= symbolName.split('/')[0];
+	const data = await makeApiRequestForSymbol('data/v2/pair/mapping/fsym?fsym='+symbol+'&api_key=0819abaa220513dd813a2561a56c534b013d25b75e3f15fc5f3282e10d75d1d0');
 	let allSymbols = [];
-	if (data.Data.current != undefined) {
+	if(data.Data.current != undefined){
 		for (const obj of data.Data.current) {
 			const symbol = generateExchangeSymbol(obj.exchange, obj.fsym, obj.tsym);
-			let returnobj = {
-				name: obj.fsym,
-				symbol: symbol.short,
-				full_name: symbol.full,
-				description: symbol.short,
-				exchange: obj.exchange
-			};
+			let	returnobj= {
+					name:obj.fsym,
+					symbol: symbol.short,
+					full_name: symbol.full,
+					description: symbol.short,
+					exchange: obj.exchange
+				};
 			allSymbols.push(returnobj);
 		}
 	}
-
+	
 	return allSymbols;
 }
 
@@ -158,6 +160,8 @@ export default {
 			// type: symbolItem.type,
 			session: '24x7',
 			timezone: 'Asia/Kolkata',
+			format: 10,
+fractional: false,
 			// exchange: symbolItem.exchange,
 			minmov: 1,
 			pricescale: 10000000,
@@ -166,13 +170,11 @@ export default {
 			has_no_volume: false,
 			has_weekly_and_monthly: true,
 			minmov2: 0,
-			intraday_multipliers: ['1', '5', '15', '60', '240', '1D', '1W'],
+			// intraday_multipliers:['1', '5', '15', '60', '240'],
 			supported_resolutions: configurationData.supported_resolutions,
 			volume_precision: 10,
 			data_status: 'streaming',
-			full_name: symbolItem.full_name,
-			has_emtpy_bars : true,
-			visible_plots_set: 'ohlc'
+			full_name:symbolItem.full_name
 		};
 
 		console.log('[resolveSymbol]: Symbol resolved', symbolName);
@@ -183,6 +185,9 @@ export default {
 		const { from, to, firstDataRequest } = periodParams;
 		console.log('[getBars]: Method call', symbolInfo, resolution, from, to, firstDataRequest);
 		const parsedSymbol = parseFullSymbol(symbolInfo.full_name);
+		// if(ownData!=null){
+		// 	return;
+		// }
 		const urlParameters = {
 			fsym: parsedSymbol.fromSymbol,
 			tsym: 'USDT',//parsedSymbol.toSymbol,
@@ -201,32 +206,46 @@ export default {
 			// 	});
 			// 	return;
 			// }
-			let time = resolution;
-			if (resolution == '1D') {
-				time = 1440;
+			let pairAddress= localStorage.getItem('poolPair');
+			if(resolution == '1D'){
+				resolution=1440;
 			}
-			else if (resolution == '1W') {
-				time = 10080;
-			};
-			let pairAddress = localStorage.getItem('poolPair');
-			let params = 'address=' + pairAddress + '&resolution=' + time;
-			let klinedata = await getRequest(APIURL + 'kline?', params);
+			else if(resolution == '1W'){
+				resolution = 10080;
+			}
+			let params='address='+pairAddress + '&resolution='+resolution;
+			let klinedata = await getRequestKline(APIURL + 'kline?', params);
 			let bars = [];
-		
-			klinedata.forEach(bar => {
-				if (resolution == '1W') {
-					if (bar.time >= from && bar.time < to) {
-						bars = [...bars, {
-							time: bar.time * 1000,
-							low: bar.low,
-							high: bar.high,
-							open: bar.open,
-							close: bar.close,
-						}];
-					}
+			if(klinedata.length < 400){
+
+				let obj={
+					time: 0,
+					low: 0,
+					high: 0,
+					open: 0,
+					close: 0
 				}
-				else {
-					//if (bar.time >= from && bar.time < to) {
+				let loopTime = 410-klinedata.length;
+
+				for(let i=0; i< loopTime; i++){
+					bars.push(obj);
+				}
+				// const data = await makeApiRequest(`data/histoday?${query}`);
+				// if (data.Response && data.Response === 'Error' || data.Data.length === 0) {
+				// 	// "noData" should be set if there is no data in the requested period.
+				// 	onHistoryCallback([], {
+				// 		noData: true,
+				// 	});
+				// 	return;
+				// }
+				// klinedata=data.Data;
+			}
+
+			// console.log('======= crypto data', data.Data)
+			// let bars = klinedata;
+			
+			klinedata.forEach(bar => {
+				if (bar.time >= from && bar.time < to) {
 					bars = [...bars, {
 						time: bar.time * 1000,
 						low: bar.low,
@@ -234,39 +253,19 @@ export default {
 						open: bar.open,
 						close: bar.close,
 					}];
-					//}
 				}
 
-
 			});
-
 			if (firstDataRequest) {
 				lastBarsCache.set(symbolInfo.name, {
 					...bars[bars.length - 1],
 				});
 				console.log(`[getBars]: returned ${bars.length} bar(s)`);
-				if (bars.length < 400) {
-
-					let obj = {
-						time: 0,
-						low: 0,
-						high: 0,
-						open: 0,
-						close: 0
-					}
-					let loopTime = 322 - bars.length;
-					let eArray = [];
-					for (let i = 0; i < loopTime; i++) {
-						eArray = [...eArray, obj];
-					}
-
-					bars = eArray.concat(bars);
-				}
 				onHistoryCallback(bars, {
 					noData: false,
 				});
 			}
-
+			
 		} catch (error) {
 			console.log('[getBars]: Get error', error);
 			onErrorCallback(error);
@@ -280,12 +279,6 @@ export default {
 		subscribeUID,
 		onResetCacheNeededCallback,
 	) => {
-		// let subscriberUID = localStorage.getItem('previousSubscribeId');
-		// if(subscriberUID != subscribeUID){
-		// 	console.log(subscriberUID);
-		// 	unsubscribeFromStream(subscriberUID);
-		// }
-		
 		console.log('[subscribeBars]: Method call with subscribeUID:', subscribeUID);
 		subscribeOnStream(
 			symbolInfo,
@@ -295,7 +288,7 @@ export default {
 			onResetCacheNeededCallback,
 			lastBarsCache.get(symbolInfo.full_name),
 		);
-    
+		ownData=null;
 	},
 
 	unsubscribeBars: (subscriberUID) => {
