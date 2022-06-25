@@ -16,6 +16,7 @@ const TVChartContainer = (props) => {
 	useEffect(() => {
 		renderWidget();
 		setLoad(false);
+		
 	},[props.symbol, props.klinePair]);
 
 	// [props.symbol, props.klinePair]
@@ -84,16 +85,7 @@ const TVChartContainer = (props) => {
 		};
 
 		const widget = window.tvWidget = new window.TradingView.widget(widgetOptions);
-		// widget.applyOptions({
-
-		// 	handleScroll: {
-		// 		vertTouchDrag: false,
-		// 		mouseWheel: false,
-		// 		pressedMouseMove: false
-		// 	},
-
-		// });
-
+		
 		widget.onChartReady(() => {
 			setLoad(true);
 			setSymbol(props.symbol);

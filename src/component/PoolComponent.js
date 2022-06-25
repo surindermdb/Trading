@@ -16,6 +16,28 @@ const PoolComponent = () => {
     }, [])
 
 
+    // on select token from searching list
+    const onChangeAddress = async (e, address) => {
+        e.preventDefault();
+        let data = await getRequest(APIURL + 'pooltokeninfo?address=', address);
+        let token = {
+            address: address,
+            icon:  require('../assets/images/icon-default.png').default,
+            price: data.current_price_usd,
+            holder: data.holders,
+            marketCap: "0.0",
+            volume: "0.0",
+            change: data.price_change.toString(),
+            symbol: data.symbol
+        }
+        // props.changeMapWithSymbol(token, data.symbol);
+        localStorage.setItem("tokenInfo", JSON.stringify(token));
+        const nextURL = HOST + '/token/' + token.address;
+        window.location.href=nextURL;
+
+    }
+
+
     return (
         <>
             <main className="main-container" data-v-2026486a="" style={{ upColor: '#12473F', downColor: '#572533', paddingTop: '20px', overflowX:'auto' }}>
@@ -115,14 +137,24 @@ const PoolComponent = () => {
                                                                     swapUrl = "https://pancakeswap.finance/swap?inputCurrency=BNB&amp;outputCurrency=" + item.target_token + "";
                                                                 }
                                                                 else if (item.amm === 'uniswapv2') {
-                                                                    swapUrl = "https://app.uniswap.org/#/swap?use=V2&inputCurrency=ETH&outputCurrency=" + item.target_token + ""
+                                                                    swapUrl = "https://app.uniswap.org/#/swap?use=V2&inputCurrency=ETH&outputCurrency=" + item.target_token + "";
                                                                 }
                                                                 else if (item.amm === 'tradejoe') {
-                                                                    swapUrl = "https://traderjoexyz.com/home#/trade?inputCurrency=AVAX&outputCurrency=" + item.target_token + ""
+                                                                    swapUrl = "https://traderjoexyz.com/home#/trade?inputCurrency=AVAX&outputCurrency=" + item.target_token + "";
                                                                 }
                                                                 else if (item.amm === 'bschoswap') {
-                                                                    swapUrl = "https://bschoswap.halo.land/swap?inputCurrency=BNB&outputCurrency=" + item.target_token + ""
+                                                                    swapUrl = "https://bschoswap.halo.land/swap?inputCurrency=BNB&outputCurrency=" + item.target_token + "";
                                                                 }
+                                                                else if(item.amm === 'sunswap' || item.amm == 'sunswapv2' ){
+                                                                    swapUrl ="https://sunswap.com/#/sun?outputCurrency="+item.target_token;
+                                                                }
+                                                                else if(item.amm == 'spookyswap'){
+                                                                    swapUrl ="https://spooky.fi/#/";
+                                                                }
+                                                                else if(item.amm == 'metaswap'){
+                                                                    swapUrl ="https://swap.meta-world.game/dex/#/swap?inputCurrency=MTW&outputCurrency="+item.target_token;
+                                                                }
+                                                                
 
                                                                 let chainUrl = "https://bscscan.com/token/" + item.pair + "";
                                                                 if (item.chain == "eth") {
@@ -153,6 +185,11 @@ const PoolComponent = () => {
                                                                 " "+hour+
                                                                 ":"+minute+
                                                                 ":"+second;
+
+                                                                let swapIcon='icon-default.png';
+                                                                if(item.amm!='unknown'){
+                                                                    swapIcon=item.amm+'.jpeg';
+                                                                }
 
                                                                 return <tr className="el-table__row">
                                                                     <td className="el-table_1_column_1   el-table__cell" rowSpan="1" colSpan="1">
@@ -186,10 +223,10 @@ const PoolComponent = () => {
                                                                                 <img src='https://avesp.xyz/oss/chain/bsc.png' style={{ width: '20px' }}></img>
                                                                             </a>
                                                                             <a href={swapUrl} target="_blank" className="icon-a el-tooltip__trigger el-tooltip__trigger" rel="noopener noreferrer" data-v-2e7b72c4="">
-                                                                                <img src={require('../assets/images/swap.jpg')} style={{ width: '20px' }}></img>
+                                                                                <img src={require('../assets/images/'+swapIcon).default} style={{ width: '20px' }}></img>
                                                                             </a>
-                                                                            <a href={"/token/" + item.target_token + "-bsc"} className="icon-a el-tooltip__trigger el-tooltip__trigger" rel="noopener noreferrer" data-v-2e7b72c4="">
-                                                                                <img src={require('../assets/images/market.jpg')} style={{ width: '20px' }}></img>
+                                                                            <a onClick={(e)=>onChangeAddress(e,item.target_token)} className="icon-a el-tooltip__trigger el-tooltip__trigger" rel="noopener noreferrer" data-v-2e7b72c4="">
+                                                                                <img src={require('../assets/images/market.jpg').default} style={{ width: '20px' }}></img>
                                                                             </a></div>
                                                                     </td>
                                                                 </tr>
@@ -206,7 +243,7 @@ const PoolComponent = () => {
                             </div>
                         </div>
 
-                        <div role="pagination" aria-label="pagination" className="el-pagination is-background pagination-box" data-v-2e7b72c4="">
+                        <div role="pagination" aria-label="pagination" className="el-pagination is-background pagination-box" style={{display:'none'}} data-v-2e7b72c4="">
                             <span className="el-pagination__sizes is-first"><div className="el-select el-select--default">
                                 <div className="select-trigger el-tooltip__trigger el-tooltip__trigger">
                                     <div className="el-input el-input--default el-input--suffix">

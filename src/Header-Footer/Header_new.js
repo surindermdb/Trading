@@ -4,7 +4,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
 import { APIURL, BSCURL, HOST } from '../config';
 import { postRequest, getRequest } from "../Action";
-import { faWallet} from "@fortawesome/free-solid-svg-icons";
+import { faWallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 let iframe;
@@ -15,7 +15,8 @@ const HeaderNew = (props) => {
     const [searchBtnView, setSearchBtnView] = useState(false);
     const [currentPath, setCurrentPath] = useState('market');
     const [searchByTxt, setSearchByTxt] = useState(true);
-    const [walletAddress,setWalletAddress]=useState('');
+    const [walletAddress, setWalletAddress] = useState('');
+    const [lngDropDown, setLngDropDown] = useState(false);
 
     const handleSearchPopup = () => {
         setSearchPopup(true);
@@ -36,20 +37,20 @@ const HeaderNew = (props) => {
         let path = window.location.pathname.split('/')[1];
 
         setCurrentPath(path);
-        connectToWallet();
+        // connectToWallet();
         // iframe = document.getElementsByTagName('iframe');
     })
 
     const connectToWallet = async () => {
 
         if (window.web3) {
-          let newWeb3 = new Web3(window.web3.currentProvider);
-          window.ethereum.enable();
-          const accounts = await newWeb3.eth.getAccounts();
-          if(accounts.length>0){
-            setWalletAddress(accounts[0]);
-          }
-          return true;
+            let newWeb3 = new Web3(window.web3.currentProvider);
+            window.ethereum.enable();
+            const accounts = await newWeb3.eth.getAccounts();
+            if (accounts.length > 0) {
+                setWalletAddress(accounts[0]);
+            }
+            return true;
         }
     }
 
@@ -110,6 +111,13 @@ const HeaderNew = (props) => {
         connectToWallet();
     }
 
+    document.addEventListener('click', function (e) {
+        if (e.target.classList != 'el-dropdown--default' && e.target.classList != 'el-tooltip__trigger' && e.target.classList!='el-icon' &&
+        e.target.classList != 'd_el-dropdown-link' && e.target.classList != 'el-dropdown-link' && e.target.classList!='m_el-dropdown-link' && e.target.classList!=' el-icon--right' && e.target.classList != 'icon') {
+            setLngDropDown(false);
+        }
+    })
+
 
     return (
         <>
@@ -118,26 +126,26 @@ const HeaderNew = (props) => {
                 <div className="content" data-v-04096ca8="">
                     <div className="header-left" data-v-04096ca8="">
                         <a aria-current="page" href="/token/0x2963dcc52549573bbfbe355674724528532c0867-bsc" className="router-link-active router-link-exact-active logo" data-v-04096ca8="">
-                            <img className="media_pc" src={require("../assets/images/poocoin-logo.png").default} height="40" width="40px" alt="" data-v-04096ca8="" />
-                            <img className="media_mobile" src={require("../assets/images/poocoin-logo.png").default} alt="" data-v-04096ca8="" />
+                            <img className="media_pc" src={require("../assets/images/logo.png").default} height="40" width="40px" alt="" data-v-04096ca8="" />
+                            <img className="media_mobile" src={require("../assets/images/logo.png").default} alt="" data-v-04096ca8="" />
                         </a>
                         {searchBtnView == false &&
                             <div className="nav-list" data-v-04096ca8="">
                                 <a aria-current="page" href="/token/0x2963dcc52549573bbfbe355674724528532c0867-bsc" className={currentPath == 'market' || currentPath == 'token' ? "router-link-active router-link-exact-active nav-item active" : "router-link-active router-link-exact-active nav-item"} data-v-04096ca8="">Markets</a>
                                 <a href="/pool" className={currentPath == 'pool' ? "nav-item active" : "nav-item"} data-v-04096ca8="">New Pool</a>
-                                <a href="/check" className={currentPath == 'check' ? "nav-item active" : "nav-item"} data-v-04096ca8="">Check</a>
+                                <a href="/check" className={currentPath == 'check' ? "nav-item active" : "nav-item"} data-v-04096ca8="">Audit</a>
                             </div>
                         }
                     </div>
                     {/* {searchBtnView == true && */}
-                        <div className="search-btn-container" data-v-04096ca8="" >
-                            <div className="d_search_btn_tmb search-btn-container_content" id="searcht" data-v-04096ca8="" onClick={handleSearchPopup} >Enter address/token</div>
-                            <i className="el-icon" data-v-04096ca8="">
-                                <svg id="btnsrch" className="icon" width="200" height="200" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" data-v-04096ca8="">
-                                    <path fill="currentColor" d="M795.904 750.72l124.992 124.928a32 32 0 01-45.248 45.248L750.656 795.904a416 416 0 1145.248-45.248zM480 832a352 352 0 100-704 352 352 0 000 704z"></path>
-                                </svg>
-                            </i>
-                        </div>
+                    <div className="search-btn-container" data-v-04096ca8="" >
+                        <div className="d_search_btn_tmb search-btn-container_content" id="searcht" data-v-04096ca8="" onClick={handleSearchPopup} >Enter address/token</div>
+                        <i className="el-icon" data-v-04096ca8="">
+                            <svg id="btnsrch" className="icon" width="200" height="200" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" data-v-04096ca8="">
+                                <path fill="currentColor" d="M795.904 750.72l124.992 124.928a32 32 0 01-45.248 45.248L750.656 795.904a416 416 0 1145.248-45.248zM480 832a352 352 0 100-704 352 352 0 000 704z"></path>
+                            </svg>
+                        </i>
+                    </div>
                     {/* } */}
 
                     <div id="dialogcontainer" className="dialog-container" data-v-04096ca8="" style={{ display: searchPopup === true ? 'block' : 'none' }}>
@@ -253,7 +261,7 @@ const HeaderNew = (props) => {
                         </div>
                     </div>
                     <ul data-v-04096ca8="">
-                        
+
                         {/* {searchBtnView == true &&
 
                             <li>
@@ -267,23 +275,65 @@ const HeaderNew = (props) => {
                             </li>
                         } */}
 
-                        <div className="el-dropdown" data-v-0c57b22e="" data-v-04096ca8="">
-                            <div className="el-dropdown--default el-tooltip__trigger el-tooltip__trigger">
-                                <span className="d_el-dropdown-link el-dropdown-link" data-v-0c57b22e="">English <i className="el-icon el-icon--right" data-v-0c57b22e="">
+                        <div className="el-dropdown" style={{position:'relative'}} data-v-0c57b22e="" data-v-04096ca8="">
+                            <div className="el-dropdown--default" onClick={(e)=>setLngDropDown(!lngDropDown)}>
+                                <span className="el-dropdown-link" data-v-0c57b22e="">English <i className="el-icon el-icon--right" data-v-0c57b22e="">
                                     <svg className="icon" width="200" height="200" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" data-v-0c57b22e="">
                                         <path fill="currentColor" d="M831.872 340.864L512 652.672 192.128 340.864a30.592 30.592 0 00-42.752 0 29.12 29.12 0 000 41.6L489.664 714.24a32 32 0 0044.672 0l340.288-331.712a29.12 29.12 0 000-41.728 30.592 30.592 0 00-42.752 0z"></path>
                                     </svg>
                                 </i>
                                 </span>
-                                <span className="m_el-dropdown-link el-dropdown-link" data-v-0c57b22e="">
-                                    <i className="el-icon el-icon--right" data-v-0c57b22e="">
-                                        <img src={require("../assets/icons/language-icon.svg").default} />
+                                <span className="m_el-dropdown-link" data-v-0c57b22e="">
+                                    <i className="el-icon--right" data-v-0c57b22e="">
+                                        <img className="el-icon" src={require("../assets/icons/language-icon.svg").default} />
                                     </i>
                                 </span>
                             </div>
+                            <div id="el-popper-container-1261" className={lngDropDown == true?'show':''}>
+                                <div className="el-popper is-pure is-light el-dropdown__popper" role="tooltip" aria-hidden="true" data-popper-placement="bottom" style={{ zIndex: '3009', display: 'none', position: 'absolute',  top: '158px', margin: '0px' }}><div className="el-scrollbar">
+                                    <div className="el-scrollbar__wrap el-scrollbar__wrap--hidden-default">
+                                        <ul className="el-scrollbar__view el-dropdown__list" >
+                                            <ul className="el-dropdown-menu el-dropdown-menu--large" tabindex="-1" role="menu" data-v-aed9012a="" style={{ outline: 'none' }}>
+                                                <div data-el-collection-item="" aria-disabled="false" className="el-dropdown-menu__item" tabindex="-1" role="menuitem">Old Android App </div>
+                                                <div data-el-collection-item="" aria-disabled="false" className="el-dropdown-menu__item" tabindex="-1" role="menuitem">New Android App </div>
+                                                <div data-el-collection-item="" aria-disabled="false" className="el-dropdown-menu__item" tabindex="-1" role="menuitem">Windows Client</div>
+                                                <div data-el-collection-item="" aria-disabled="false" className="el-dropdown-menu__item" tabindex="-1" role="menuitem">Mac Client</div>
+                                            </ul>
+                                        </ul>
+                                    </div>
+                                    <div className="el-scrollbar__bar is-horizontal" style={{ display: 'none' }}><div className="el-scrollbar__thumb" style={{ transform: 'translateX(0%)' }}></div>
+                                    </div>
+                                    <div className="el-scrollbar__bar is-vertical" style={{ display: 'none' }}>
+                                        <div className="el-scrollbar__thumb" style={{ transform: 'translateY(0%)' }}></div>
+                                    </div>
+                                </div>
+                                    <span className="el-popper__arrow" data-popper-arrow="" style={{ position: 'absolute', left: '5px' }}></span>
+                                    <span id="el-id-6634-0" role="tooltip" style={{ position: 'absolute', border: '0px', padding: '0px', overflow: 'hidden', clip: 'rect(0px, 0px, 0px, 0px)', whiteSpace: 'nowrap', overflowWrap: 'normal' }}></span>
+                                </div>
+                                <div className="el-popper is-pure is-light el-dropdown__popper mobviewlng" role="tooltip" aria-hidden="false" data-popper-placement="bottom" style={{transitionDelay: '0s, 0s, 0.3s'}}>
+                                    <div className="el-scrollbar">
+                                        <div className="el-scrollbar__wrap el-scrollbar__wrap--hidden-default">
+                                            <ul className="el-scrollbar__view el-dropdown__list" >
+                                                <ul className="el-dropdown-menu el-dropdown-menu--default" tabindex="-1" role="menu" data-v-0c57b22e="" style={{ outline: 'none' }}>
+                                                    <div data-el-collection-item="" aria-disabled="false" className="el-dropdown-menu__item" tabindex="-1" role="menuitem" onClick={(e)=>setLngDropDown(false)}>中國人</div>
+                                                    <div data-el-collection-item="" aria-disabled="false" className="el-dropdown-menu__item" tabindex="-1" role="menuitem" onClick={(e)=>setLngDropDown(false)}>English</div>
+                                                </ul>
+                                            </ul>
+                                        </div>
+                                        <div className="el-scrollbar__bar is-horizontal" style={{ display: 'none' }}>
+                                            <div className="el-scrollbar__thumb" style={{ transform: 'translateX(0%)' }}></div>
+                                        </div>
+                                        <div className="el-scrollbar__bar is-vertical" style={{ display: 'none' }}>
+                                            <div className="el-scrollbar__thumb" style={{ transform: 'translateY(0%)' }}></div>
+                                        </div>
+                                    </div>
+                                    <span className="el-popper__arrow lngdropdownarrow" data-popper-arrow="" style={{ position: 'absolute', left: '39px' }}></span>
+                                    <span id="el-id-6634-5" role="tooltip" style={{ position: 'absolute', border: '0px', padding: '0px', overflow: 'hidden', clip: 'rect(0px, 0px, 0px, 0px)', whiteSpace: 'nowrap', overflowWrap: 'normal' }}></span>
+                                </div>
+                            </div>
                         </div>
 
-                        {walletAddress!=='' && <li className="li-item" data-v-04096ca8="">
+                        {/* {walletAddress!=='' && <li className="li-item" data-v-04096ca8="">
                             <button className="d_connect_tmb el-button el-button--default aex-button-primary-null" type="button" data-v-04096ca8="">
                                 <span className="">{walletAddress}</span>
                             </button>
@@ -295,7 +345,7 @@ const HeaderNew = (props) => {
                             <button className="d_connect_tmb el-button el-button--default aex-button-primary-null" type="button" data-v-04096ca8="">
                                 <span className="">Connect</span>
                             </button>
-                        </li>}
+                        </li>} */}
                         {/* <li className="li-item" data-v-04096ca8="" onClick={walletConnect}>
                             <i className="wallet_mobile iconfont icon-wallet" data-v-04096ca8=""></i>
                             <button className="d_connect_tmb el-button el-button--default aex-button-primary-null" type="button" data-v-04096ca8="">
@@ -344,7 +394,7 @@ const HeaderNew = (props) => {
                     </div>
                 </div>
             </div>
-            
+
 
         </>
     )

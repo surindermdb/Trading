@@ -226,7 +226,7 @@ const TrendingChart = () => {
 
     const refreshData = (address) => {
         getTradeHistory(address);
-        // getPoolPair(address);
+        getPoolPair(address);
         getTokenExtraDetail(address);
     };
 

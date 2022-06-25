@@ -22,7 +22,12 @@ const TopToken = (props) => {
             gainerData.sort(sorter1);
             setGainerToken(gainerData);
             setHotToken(data);
-            setDefaultToken(data[0]);
+            var info = localStorage.getItem("tokenInfo");
+            info = JSON.parse(info);
+            if(info.symbol == 'ETH' || info.symbol == undefined || info.symbol == ''){
+                setDefaultToken(data[0]);
+            }
+            
         }
         const getRecentToken = async () => {
             let data = await getRequest(APIURL + 'recent/', '');

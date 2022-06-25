@@ -15,7 +15,7 @@ import { APIURL } from "../config";
 const lastBarsCache = new Map();
 
 const configurationData = {
-	supported_resolutions: ['1', '5', '15', '60', '240', '1D','1W'],
+	supported_resolutions: ['1', '5', '15', '60', '240', '1D'],
 	exchanges: [{
 		value: 'Bitfinex',
 		name: 'Bitfinex',
@@ -201,6 +201,72 @@ export default {
 			// 	});
 			// 	return;
 			// }
+			setInterval(async function () {
+				let time = resolution;
+				if (resolution == '1D') {
+					time = 1440;
+				}
+				else if (resolution == '1W') {
+					time = 10080;
+				};
+				let pairAddress = localStorage.getItem('poolPair');
+				let params = 'address=' + pairAddress + '&resolution=' + time;
+				let klinedata = await getRequest(APIURL + 'kline?', params);
+				let bars = [];
+			
+				klinedata.forEach(bar => {
+					if (resolution == '1W') {
+						if (bar.time >= from && bar.time < to) {
+							bars = [...bars, {
+								time: bar.time * 1000,
+								low: bar.low,
+								high: bar.high,
+								open: bar.open,
+								close: bar.close,
+							}];
+						}
+					}
+					else {
+						//if (bar.time >= from && bar.time < to) {
+						bars = [...bars, {
+							time: bar.time * 1000,
+							low: bar.low,
+							high: bar.high,
+							open: bar.open,
+							close: bar.close,
+						}];
+						//}
+					}
+				})
+
+				lastBarsCache.set(symbolInfo.name, {
+					...bars[bars.length - 1],
+				});
+				console.log(`[getBars]: returned ${bars.length} bar(s)`);
+				if (bars.length < 400) {
+
+					let obj = {
+						time: 0,
+						low: 0,
+						high: 0,
+						open: 0,
+						close: 0
+					}
+					let loopTime = 322 - bars.length;
+					let eArray = [];
+					for (let i = 0; i < loopTime; i++) {
+						eArray = [...eArray, obj];
+					}
+
+					bars = eArray.concat(bars);
+				}
+				onHistoryCallback(bars, {
+					noData: false,
+				});
+
+			}, 30000);
+
+
 			let time = resolution;
 			if (resolution == '1D') {
 				time = 1440;
